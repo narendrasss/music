@@ -5,7 +5,8 @@ export default {
     gray: '#9b7991',
     lgray: '#a7b0bb',
     blue: '#2d87fd',
-    maroon: '#5e0b37'
+    maroon: '#5e0b37',
+    red: '#ed5572'
   },
   fonts: {
     heading: `'SF Display', sans-serif`,
@@ -18,4 +19,4 @@ export default {
       light: 200
     }
   }
-}
+};
