@@ -1,13 +1,12 @@
 const BASE_URL = 'http://localhost:8080';
-const token = localStorage.getItem('token');
 
 const request = async (method, url, body) => {
-  const response = await fetch(BASE_URL + url, {
+  const id = localStorage.getItem('id');
+  const response = await fetch(`${BASE_URL + url}?id=${id}`, {
     method,
     mode: 'cors',
     headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`
+      'Content-Type': 'application/json'
     },
     body: JSON.stringify(body)
   });
@@ -20,10 +19,15 @@ const request = async (method, url, body) => {
 };
 
 export default {
-  login: (email, password) => {
-    return request('post', '/login', { email, password });
+  login: (username, password) => {
+    return request('post', '/login', { username, password });
   },
-  register: (email, password, name, type) => {
-    return request('post', '/register', { email, password, name, type });
+  register: (id, username, password, name, type) => {
+    return request('post', '/register', { id, username, password, name, type });
+  },
+  user: {
+    me: () => {
+      return request('get', '/api/me');
+    }
   }
 };

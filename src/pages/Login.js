@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { Link } from '@reach/router';
+import { Link, navigate } from '@reach/router';
 import styled from 'styled-components';
 
 import client from '../utils/client';
 import Container from '../components/Container';
 import TextInput from '../components/TextInput';
 import Button from '../components/Button';
+import ErrorMessage from '../components/ErrorMessage';
 
 const Title = styled.h1`
   margin-bottom: 1rem;
@@ -32,24 +33,32 @@ const Register = styled(Link).attrs({ to: '/register' })`
 `;
 
 const Login = () => {
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [errors, setErrors] = useState(null);
+
+  const handleSubmit = async e => {
+    e.preventDefault();
+    try {
+      const { id } = await client.login(username, password);
+      localStorage.setItem('id', id);
+      navigate('/home');
+    } catch (error) {
+      console.error(error);
+      setErrors(error);
+    }
+  };
 
   return (
     <Container>
-      <form
-        onSubmit={e => {
-          e.preventDefault();
-          client.login(email, password);
-        }}
-      >
+      <form onSubmit={handleSubmit}>
         <Title>Welcome back.</Title>
         <TextInput
-          label="Email"
-          name="email"
-          value={email}
-          onChange={e => setEmail(e.target.value)}
-          type="email"
+          label="Username"
+          name="username"
+          value={username}
+          onChange={e => setUsername(e.target.value)}
+          type="text"
           required
         />
         <TextInput
@@ -60,6 +69,7 @@ const Login = () => {
           type="password"
           required
         />
+        {errors ? <ErrorMessage>{errors.error.detail}</ErrorMessage> : null}
         <ButtonsWrapper>
           <Submit>Login</Submit>
           <Register to="/register">

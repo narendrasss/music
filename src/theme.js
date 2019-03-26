@@ -11,6 +11,7 @@ export default {
   fonts: {
     heading: `'SF Display', sans-serif`,
     body: `'SF Text', sans-serif`,
+    mono: `'SF Mono', monospace`,
     baseSize: `15px`,
     weights: {
       bold: 700,

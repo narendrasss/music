@@ -18,5 +18,10 @@ export default createGlobalStyle`
     h1 {
       line-height: 1;
     }
+
+    code {
+      font-family: ${theme.fonts.mono};
+      font-size: 0.8rem;
+    }
   `}
 `;
