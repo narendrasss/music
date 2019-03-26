@@ -1,35 +1,54 @@
 import React, { Component } from 'react';
-import Container from '../components/Container';
+import styled from 'styled-components';
+import Layout from '../components/Layout';
 import Spinner from '../components/Spinner';
 import client from '../utils/client';
+import SongList from '../components/SongList';
+import List from '../components/List';
+import Playlist from '../components/Playlist';
+import UserIcon from '../components/UserIcon';
+
+const Songs = styled(SongList)`
+  margin: 2rem 0;
+`;
+
+const FlexList = styled(List)`
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+`;
 
 class Home extends Component {
   state = {
-    loading: false,
+    loading: true,
     user: {},
     songs: [],
-    playlists: []
+    playlists: [],
+    follows: []
   };
 
   render() {
     return (
-      <Container>
+      <Layout>
         {this.state.loading ? (
           <Spinner size="3x" />
         ) : (
           <>
             <h1>Welcome back, {this.state.user.name}.</h1>
-            <h2>Songs</h2>
-            {this.state.songs.map(song => (
-              <p>{song.song_name}</p>
-            ))}
+            <Songs title="Liked Songs" songs={this.state.songs} />
             <h2>Playlists</h2>
-            {this.state.playlists.map(playlist => (
-              <p>{playlist.playlist_name}</p>
-            ))}
+            <FlexList items={this.state.playlists}>
+              {playlist => <Playlist {...playlist} />}
+            </FlexList>
+            <h2>Follows</h2>
+            <FlexList items={this.state.follows}>
+              {user => <UserIcon {...user} />}
+            </FlexList>
           </>
         )}
-      </Container>
+      </Layout>
     );
   }
 
@@ -38,8 +57,13 @@ class Home extends Component {
       client.user
         .me()
         .then(res => {
-          const { self: user, likedSongs: songs, playlists } = res.data;
-          this.setState({ loading: false, user, songs, playlists });
+          const {
+            self: user,
+            likedSongs: songs,
+            playlists,
+            follows
+          } = res.data;
+          this.setState({ loading: false, user, songs, playlists, follows });
         })
         .catch(err => {
           this.setState({ loading: false, errors: err });

@@ -11,8 +11,10 @@ const spin = keyframes`
   }
 `;
 
-const Spinny = styled(FontAwesomeIcon).attrs({ icon: 'spinner' })`
+const Spinny = styled(FontAwesomeIcon).attrs({ icon: 'circle-notch' })`
+  color: ${({ theme }) => theme.colors.lgray};
   animation: ${spin} 1s ease-in-out infinite;
+  margin: auto;
 `;
 
 const Spinner = ({ className, size = '1x' }) => {
