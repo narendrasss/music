@@ -1,9 +1,14 @@
 import React, { Component } from 'react';
+import styled from 'styled-components';
 import Layout from '../components/Layout';
 import Spinner from '../components/Spinner';
 import List from '../components/List';
-import Song from '../components/Song';
+import AddSong from '../components/Song/AddSong';
 import client from '../utils/client';
+
+const Title = styled.h1`
+  margin-bottom: 2rem;
+`;
 
 class Songs extends Component {
   state = {
@@ -18,8 +23,10 @@ class Songs extends Component {
           <Spinner size="3x" />
         ) : (
           <>
-            <h1>Top Songs</h1>
-            <List items={this.state.songs}>{song => <Song {...song} />}</List>
+            <Title>Top Songs</Title>
+            <List items={this.state.songs}>
+              {song => <AddSong onAdd={this.handleChangeSong} {...song} />}
+            </List>
           </>
         )}
       </Layout>
@@ -34,6 +41,21 @@ class Songs extends Component {
         this.setState({ loading: false, errors: err });
       });
   }
+
+  handleChangeSong = id => {
+    this.setState({ loading: true }, () => {
+      client.song
+        .like(id)
+        .then(() => {
+          this.setState({ loading: false });
+        })
+        .catch(err => {
+          this.setState({ loading: false }, () => {
+            console.error(err);
+          });
+        });
+    });
+  };
 }
 
 export default Songs;

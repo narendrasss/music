@@ -37,6 +37,9 @@ export default {
     top() {
       return request('get', `/api/song`);
     },
+    like(id) {
+      return request('post', `/api/likes`, { id });
+    },
     unlike(id) {
       return request('delete', `/api/likes/${id}`);
     }
