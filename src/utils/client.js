@@ -51,6 +51,9 @@ export default {
         request('post', `/api/playlist/${name}`, { id })
       );
       return Promise.all(init, ...promises);
+    },
+    me() {
+      return request('get', `/api/playlist`);
     }
   }
 };

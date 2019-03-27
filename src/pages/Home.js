@@ -10,6 +10,7 @@ import UserIcon from '../components/UserIcon';
 import Button from '../components/Button';
 import Link from '../components/Link';
 import RemoveSong from '../components/Song/RemoveSong';
+import { sleep } from '../utils/helpers';
 
 const Songs = styled(SongList)`
   margin: 2rem 0;
@@ -67,23 +68,17 @@ class Home extends Component {
     );
   }
 
-  componentDidMount() {
-    this.setState({ loading: true }, () => {
-      client.user
-        .me()
-        .then(res => {
-          const {
-            self: user,
-            likedSongs: songs,
-            playlists,
-            follows
-          } = res.data;
-          this.setState({ loading: false, user, songs, playlists, follows });
-        })
-        .catch(err => {
-          this.setState({ loading: false, errors: err });
-        });
-    });
+  async componentDidMount() {
+    await sleep(800);
+    client.user
+      .me()
+      .then(res => {
+        const { self: user, likedSongs: songs, playlists, follows } = res.data;
+        this.setState({ loading: false, user, songs, playlists, follows });
+      })
+      .catch(err => {
+        this.setState({ loading: false, errors: err });
+      });
   }
 
   handleRemoveSong = id => {

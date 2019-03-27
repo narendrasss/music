@@ -37,3 +37,5 @@ export const logout = () => {
   localStorage.removeItem('id');
   navigate('/');
 };
+
+export const sleep = ms => new Promise((resolve, _) => setTimeout(resolve, ms));

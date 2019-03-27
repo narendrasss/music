@@ -5,6 +5,7 @@ import Spinner from '../components/Spinner';
 import List from '../components/List';
 import AddSong from '../components/Song/AddSong';
 import client from '../utils/client';
+import { sleep } from '../utils/helpers';
 
 const Title = styled.h1`
   margin-bottom: 2rem;
@@ -33,7 +34,8 @@ class Songs extends Component {
     );
   }
 
-  componentDidMount() {
+  async componentDidMount() {
+    await sleep(800);
     client.song
       .top()
       .then(res => this.setState({ loading: false, songs: res.data }))

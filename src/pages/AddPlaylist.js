@@ -33,9 +33,7 @@ class AddPlaylist extends Component {
   render() {
     return (
       <Layout>
-        {this.state.loading ? (
-          <Spinner size="3x" />
-        ) : (
+        {this.state.loading ? null : (
           <>
             <Title>Add Playlist</Title>
             <TextInput
