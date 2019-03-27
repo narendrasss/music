@@ -42,14 +42,8 @@ const Register = () => {
     e.preventDefault();
     const id = makeID();
     try {
-      const { uid } = await client.register(
-        id,
-        username,
-        password,
-        name,
-        type.toLowerCase()
-      );
-      localStorage.setItem('id', uid);
+      await client.register(id, username, password, name, type.toLowerCase());
+      localStorage.setItem('id', id);
       navigate('/home');
     } catch (err) {
       console.error(err);

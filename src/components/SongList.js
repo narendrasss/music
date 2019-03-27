@@ -33,7 +33,7 @@ const Duration = styled(Title)`
   flex: 1;
 `;
 
-const SongList = ({ className, title, songs }) => {
+const SongList = ({ className, title, songs, onRemove }) => {
   return (
     <div className={className}>
       <MainTitle>{title}</MainTitle>
@@ -43,7 +43,9 @@ const SongList = ({ className, title, songs }) => {
         <Artist>Artist</Artist>
         <Duration>Duration</Duration>
       </Header>
-      <List items={songs}>{song => <Song {...song} />}</List>
+      <List items={songs}>
+        {song => <Song onRemove={onRemove} {...song} />}
+      </List>
     </div>
   );
 };

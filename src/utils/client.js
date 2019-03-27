@@ -29,5 +29,10 @@ export default {
     me: () => {
       return request('get', '/api/me');
     }
+  },
+  song: {
+    unlike: id => {
+      return request('delete', `/api/likes/${id}`);
+    }
   }
 };

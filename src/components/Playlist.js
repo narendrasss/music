@@ -4,6 +4,7 @@ import Link from './Link';
 
 const Wrapper = styled.li`
   ${({ theme: { colors } }) => css`
+    margin-right: 2rem;
     padding: 0.5rem 0;
     border-bottom: 1px solid ${colors.white};
     p {

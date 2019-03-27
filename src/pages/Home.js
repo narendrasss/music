@@ -37,7 +37,11 @@ class Home extends Component {
         ) : (
           <>
             <h1>Welcome back, {this.state.user.name}.</h1>
-            <Songs title="Liked Songs" songs={this.state.songs} />
+            <Songs
+              title="Liked Songs"
+              songs={this.state.songs}
+              onRemove={this.handleRemoveSong}
+            />
             <h2>Playlists</h2>
             <FlexList items={this.state.playlists}>
               {playlist => <Playlist {...playlist} />}
@@ -70,6 +74,25 @@ class Home extends Component {
         });
     });
   }
+
+  handleRemoveSong = id => {
+    this.setState({ loading: true }, () => {
+      const index = this.state.songs.findIndex(({ song_id }) => song_id === id);
+      const songs = this.state.songs;
+      songs.splice(index, 1);
+      client.song
+        .unlike(id)
+        .then(() => {
+          this.setState({
+            loading: false,
+            songs
+          });
+        })
+        .catch(err => {
+          this.setState({ loading: false, errors: err });
+        });
+    });
+  };
 }
 
 export default Home;

@@ -1,3 +1,5 @@
+import { navigate } from '@reach/router';
+
 /**
  * Generates a random number between 0 - max.
  * @param {number} max
@@ -29,4 +31,9 @@ export const getInitials = fullName => {
     .split(' ')
     .map(name => name.substr(0, 1))
     .join('');
+};
+
+export const logout = () => {
+  localStorage.removeItem('id');
+  navigate('/');
 };
