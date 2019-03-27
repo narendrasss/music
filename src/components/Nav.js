@@ -38,16 +38,16 @@ const Nav = () => {
           <Link to="/home">Home</Link>
         </NavItem>
         <NavItem>
-          <Link to="/home">Songs</Link>
+          <Link to="/songs">Songs</Link>
         </NavItem>
         <NavItem>
-          <Link to="/home">Playlists</Link>
+          <Link to="/playlists">Playlists</Link>
         </NavItem>
         <NavItem>
-          <Link to="/home">Albums</Link>
+          <Link to="/albums">Albums</Link>
         </NavItem>
         <NavItem>
-          <Link to="/home">Artists</Link>
+          <Link to="/artists">Artists</Link>
         </NavItem>
         <Logout onClick={logout}>Logout</Logout>
       </NavContainer>

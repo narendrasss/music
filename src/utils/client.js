@@ -26,13 +26,28 @@ export default {
     return request('post', '/register', { id, username, password, name, type });
   },
   user: {
-    me: () => {
+    me() {
       return request('get', '/api/me');
     }
   },
   song: {
-    unlike: id => {
+    liked() {
+      return request('get', `/api/likes`);
+    },
+    top() {
+      return request('get', `/api/song`);
+    },
+    unlike(id) {
       return request('delete', `/api/likes/${id}`);
+    }
+  },
+  playlist: {
+    create(name, ...sids) {
+      const init = request('post', '/api/playlist', { name });
+      const promises = sids.map(id =>
+        request('post', `/api/playlist/${name}`, { id })
+      );
+      return Promise.all(init, ...promises);
     }
   }
 };

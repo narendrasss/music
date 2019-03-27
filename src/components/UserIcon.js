@@ -6,7 +6,6 @@ import Link from './Link';
 const Wrapper = styled(Link)`
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
   width: 5rem;
   &:hover {

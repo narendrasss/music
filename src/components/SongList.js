@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import List from './List';
-import Song from './Song';
 
 const MainTitle = styled.h1`
   font-size: 1.5rem;
@@ -33,7 +32,7 @@ const Duration = styled(Title)`
   flex: 1;
 `;
 
-const SongList = ({ className, title, songs, onRemove }) => {
+const SongList = ({ className, title, songs, children }) => {
   return (
     <div className={className}>
       <MainTitle>{title}</MainTitle>
@@ -43,9 +42,7 @@ const SongList = ({ className, title, songs, onRemove }) => {
         <Artist>Artist</Artist>
         <Duration>Duration</Duration>
       </Header>
-      <List items={songs}>
-        {song => <Song onRemove={onRemove} {...song} />}
-      </List>
+      <List items={songs}>{song => children(song)}</List>
     </div>
   );
 };

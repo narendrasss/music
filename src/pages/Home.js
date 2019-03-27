@@ -7,6 +7,9 @@ import SongList from '../components/SongList';
 import List from '../components/List';
 import Playlist from '../components/Playlist';
 import UserIcon from '../components/UserIcon';
+import Button from '../components/Button';
+import Link from '../components/Link';
+import RemoveSong from '../components/Song/RemoveSong';
 
 const Songs = styled(SongList)`
   margin: 2rem 0;
@@ -18,6 +21,11 @@ const FlexList = styled(List)`
   display: flex;
   justify-content: flex-start;
   flex-wrap: wrap;
+`;
+
+const AddPlaylist = styled(Button)`
+  width: 12rem;
+  margin-bottom: 2rem;
 `;
 
 class Home extends Component {
@@ -37,15 +45,18 @@ class Home extends Component {
         ) : (
           <>
             <h1>Welcome back, {this.state.user.name}.</h1>
-            <Songs
-              title="Liked Songs"
-              songs={this.state.songs}
-              onRemove={this.handleRemoveSong}
-            />
+            <Songs title="Liked Songs" songs={this.state.songs}>
+              {song => (
+                <RemoveSong onRemove={this.handleRemoveSong} {...song} />
+              )}
+            </Songs>
             <h2>Playlists</h2>
             <FlexList items={this.state.playlists}>
               {playlist => <Playlist {...playlist} />}
             </FlexList>
+            <Link to="/add-playlist">
+              <AddPlaylist>Add playlist</AddPlaylist>
+            </Link>
             <h2>Follows</h2>
             <FlexList items={this.state.follows}>
               {user => <UserIcon {...user} />}

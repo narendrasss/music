@@ -7,6 +7,7 @@ import theme from './theme';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Home from './pages/Home';
+import AddPlaylist from './pages/AddPlaylist';
 
 const App = () => (
   <ThemeProvider theme={theme}>
@@ -16,6 +17,7 @@ const App = () => (
         <Login path="/" />
         <Register path="/register" />
         <Home path="/home" />
+        <AddPlaylist path="/add-playlist" />
       </Router>
     </>
   </ThemeProvider>
