@@ -2,11 +2,10 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import Layout from '../components/Layout';
 import client from '../utils/client';
-import AddSong from '../components/Song/AddSong';
+import LikedSong from '../components/Song/LikedSong';
 import SongList from '../components/SongList';
 import Button from '../components/Button';
 import TextInput from '../components/TextInput';
-import { navigate } from '@reach/router/lib/history';
 import { Redirect } from '@reach/router';
 
 const AddPlaylistButton = styled(Button)`
@@ -47,7 +46,7 @@ class AddPlaylist extends Component {
               onChange={e => this.setState({ name: e.target.value })}
             />
             <Songs title="Liked Songs" songs={this.state.options}>
-              {song => <AddSong onAdd={this.handleChangeSong} {...song} />}
+              {song => <LikedSong onChange={this.handleChangeSong} {...song} />}
             </Songs>
             <AddPlaylistButton onClick={this.handleSubmit}>
               Add playlist

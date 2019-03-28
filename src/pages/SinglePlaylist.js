@@ -6,7 +6,7 @@ import Spinner from '../components/Spinner';
 import List from '../components/List';
 import client from '../utils/client';
 import { sleep } from '../utils/helpers';
-import RemoveSong from '../components/Song/RemoveSong';
+import LikedSong from '../components/Song/LikedSong';
 import Button from '../components/Button';
 import TextInput from '../components/TextInput';
 
@@ -21,6 +21,7 @@ const Btn = styled(Button)`
 
 const Warning = styled(Btn)`
   background-color: ${({ theme }) => theme.colors.red};
+  border: 1px solid ${({ theme }) => theme.colors.red};
 `;
 
 const Hidden = styled.div`
@@ -52,7 +53,7 @@ class SinglePlaylist extends Component {
           <>
             <Title>{this.state.name}</Title>
             <List items={this.state.songs}>
-              {playlist => <RemoveSong {...playlist} />}
+              {song => <LikedSong {...song} />}
             </List>
             <Flex>
               <Btn onClick={this.handleShow}>
@@ -91,31 +92,26 @@ class SinglePlaylist extends Component {
 
   handleUpdate = () => {
     const { name, isPrivate } = this.state;
-    this.setState({ loading: true }, () => {
-      client.playlist
-        .update(this.props.name, { name, isPrivate })
-        .then(() => {
-          this.setState({ loading: false, editing: false });
-          navigate(`/playlists/${name}`);
-        })
-        .catch(err => {
-          this.setState({ loading: false, errors: err });
-        });
-    });
+    client.playlist
+      .update(this.props.name, { name, isPrivate })
+      .then(() => {
+        this.setState({ editing: false });
+        navigate(`/playlists/${name}`);
+      })
+      .catch(err => {
+        this.setState({ errors: err });
+      });
   };
 
   handleDelete = () => {
-    this.setState({ loading: true }, () => {
-      client.playlist
-        .delete(this.props.name)
-        .then(() => {
-          this.setState({ loading: false });
-          navigate(`/playlists`);
-        })
-        .catch(err => {
-          this.setState({ loading: false, errors: err });
-        });
-    });
+    client.playlist
+      .delete(this.props.name)
+      .then(() => {
+        navigate(`/playlists`);
+      })
+      .catch(err => {
+        this.setState({ errors: err });
+      });
   };
 
   fetchSongs = async () => {

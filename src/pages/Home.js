@@ -9,7 +9,7 @@ import Playlist from '../components/Playlist';
 import UserIcon from '../components/UserIcon';
 import Button from '../components/Button';
 import Link from '../components/Link';
-import RemoveSong from '../components/Song/RemoveSong';
+import LikedSong from '../components/Song/LikedSong';
 import { sleep } from '../utils/helpers';
 
 const Songs = styled(SongList)`
@@ -48,9 +48,9 @@ class Home extends Component {
             <h1>Welcome back, {this.state.user.name}.</h1>
             <Songs title="Liked Songs" songs={this.state.songs}>
               {song => (
-                <RemoveSong
+                <LikedSong
                   key={song.song_id}
-                  onRemove={this.handleRemoveSong}
+                  onChange={this.handleRemoveSong}
                   {...song}
                 />
               )}
@@ -88,22 +88,19 @@ class Home extends Component {
   }
 
   handleRemoveSong = id => {
-    this.setState({ loading: true }, () => {
-      const index = this.state.songs.findIndex(({ song_id }) => song_id === id);
-      const songs = this.state.songs;
-      songs.splice(index, 1);
-      client.song
-        .unlike(id)
-        .then(() => {
-          this.setState({
-            loading: false,
-            songs
-          });
-        })
-        .catch(err => {
-          this.setState({ loading: false, errors: err });
+    const index = this.state.songs.findIndex(({ song_id }) => song_id === id);
+    const songs = this.state.songs;
+    songs.splice(index, 1);
+    client.song
+      .unlike(id)
+      .then(() => {
+        this.setState({
+          songs
         });
-    });
+      })
+      .catch(err => {
+        this.setState({ errors: err });
+      });
   };
 }
 

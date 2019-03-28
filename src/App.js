@@ -11,7 +11,6 @@ import AddPlaylist from './pages/AddPlaylist';
 import Songs from './pages/Songs';
 import Playlist from './pages/Playlists';
 import Artists from './pages/Artists';
-import Albums from './pages/Albums';
 import SinglePlaylist from './pages/SinglePlaylist';
 import SingleArtist from './pages/SingleArtist';
 
@@ -29,7 +28,6 @@ const App = () => (
         <SinglePlaylist path="/playlists/:name" />
         <Artists path="/artists" />
         <SingleArtist path="/artists/:id" />
-        <Albums path="/albums" />
       </Router>
     </>
   </ThemeProvider>

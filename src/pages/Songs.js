@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import Layout from '../components/Layout';
 import Spinner from '../components/Spinner';
 import List from '../components/List';
-import AddSong from '../components/Song/AddSong';
+import LikedSong from '../components/Song/LikedSong';
 import client from '../utils/client';
 import { sleep } from '../utils/helpers';
 
@@ -26,7 +26,7 @@ class Songs extends Component {
           <>
             <Title>Top Songs</Title>
             <List items={this.state.songs}>
-              {song => <AddSong onAdd={this.handleChangeSong} {...song} />}
+              {song => <LikedSong onChange={this.toggleLike} {...song} />}
             </List>
           </>
         )}
@@ -35,7 +35,7 @@ class Songs extends Component {
   }
 
   async componentDidMount() {
-    await sleep(800);
+    await sleep(500);
     client.song
       .top()
       .then(res => this.setState({ loading: false, songs: res.data }))
@@ -44,19 +44,12 @@ class Songs extends Component {
       });
   }
 
-  handleChangeSong = id => {
-    this.setState({ loading: true }, () => {
-      client.song
-        .like(id)
-        .then(() => {
-          this.setState({ loading: false });
-        })
-        .catch(err => {
-          this.setState({ loading: false }, () => {
-            console.error(err);
-          });
-        });
-    });
+  toggleLike = (id, liked) => {
+    if (liked) {
+      client.song.like(id).catch(err => console.error(err));
+    } else {
+      client.song.unlike(id).catch(err => console.error(err));
+    }
   };
 }
 

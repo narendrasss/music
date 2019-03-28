@@ -36,6 +36,12 @@ export default {
   user: {
     me() {
       return request('get', '/api/me');
+    },
+    follow(id) {
+      return request('post', `/api/user/${id}`);
+    },
+    unfollow(id) {
+      return request('delete', `/api/user/${id}`);
     }
   },
   song: {
@@ -56,12 +62,12 @@ export default {
     }
   },
   playlist: {
-    create(name, ...sids) {
-      const init = request('post', '/api/playlist', null, { name });
+    async create(name, ...sids) {
+      await request('post', '/api/playlist', null, { name });
       const promises = sids.map(id =>
         request('post', `/api/playlist/${name}/${id}`, null, { id })
       );
-      return Promise.all([init, ...promises]);
+      return Promise.all(promises);
     },
     me() {
       return request('get', `/api/playlist`);
@@ -79,6 +85,9 @@ export default {
   artist: {
     one(id) {
       return request('get', `/api/artist/${id}`);
+    },
+    followed(id) {
+      return request('get', `/api/artist/${id}/followed`);
     },
     top() {
       return request('get', `/api/artist`);

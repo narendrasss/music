@@ -5,6 +5,7 @@ const Button = styled.button`
     padding: 1rem;
     border-radius: 0.5rem;
     background: ${theme.colors.blue};
+    border: 1px solid ${theme.colors.blue};
     color: ${theme.colors.white};
     font-size: 0.8rem;
     font-weight: ${theme.fonts.weights.semibold};
