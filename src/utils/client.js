@@ -2,9 +2,9 @@ import { __parseJSON } from './helpers';
 
 const BASE_URL = 'http://localhost:8080';
 
-const request = async (method, url, body) => {
+const request = async (method, url, query, body) => {
   const id = localStorage.getItem('id');
-  const response = await fetch(`${BASE_URL + url}?id=${id}`, {
+  const response = await fetch(`${BASE_URL + url}?id=${id}&${query}`, {
     method,
     mode: 'cors',
     headers: {
@@ -21,11 +21,17 @@ const request = async (method, url, body) => {
 };
 
 export default {
-  login: (username, password) => {
-    return request('post', '/login', { username, password });
+  login(username, password) {
+    return request('post', '/login', null, { username, password });
   },
-  register: (id, username, password, name, type) => {
-    return request('post', '/register', { id, username, password, name, type });
+  register(id, username, password, name, type) {
+    return request('post', '/register', null, {
+      id,
+      username,
+      password,
+      name,
+      type
+    });
   },
   user: {
     me() {
@@ -40,18 +46,20 @@ export default {
       return request('get', `/api/song`);
     },
     like(id) {
-      return request('post', `/api/likes`, { id });
+      return request('post', `/api/likes`, null, { id });
     },
     unlike(id) {
-      console.log(id);
       return request('delete', `/api/likes/${id}`);
+    },
+    by(id) {
+      return request('get', `/api/song`, `by=${id}`);
     }
   },
   playlist: {
     create(name, ...sids) {
-      const init = request('post', '/api/playlist', { name });
+      const init = request('post', '/api/playlist', null, { name });
       const promises = sids.map(id =>
-        request('post', `/api/playlist/${name}/${id}`, { id })
+        request('post', `/api/playlist/${name}/${id}`, null, { id })
       );
       return Promise.all([init, ...promises]);
     },
@@ -62,12 +70,21 @@ export default {
       return request('get', `/api/playlist/${name}`);
     },
     update(name, body) {
-      return request('put', `/api/playlist/${name}`, body);
+      return request('put', `/api/playlist/${name}`, null, body);
+    },
+    delete(name) {
+      return request('delete', `/api/playlist/${name}`);
     }
   },
   artist: {
+    one(id) {
+      return request('get', `/api/artist/${id}`);
+    },
     top() {
       return request('get', `/api/artist`);
+    },
+    fav() {
+      return request('get', `/api/artist`, 'fav=true');
     }
   }
 };

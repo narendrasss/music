@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import Layout from '../components/Layout';
-import Spinner from '../components/Spinner';
 import client from '../utils/client';
 import AddSong from '../components/Song/AddSong';
 import SongList from '../components/SongList';
 import Button from '../components/Button';
 import TextInput from '../components/TextInput';
 import { navigate } from '@reach/router/lib/history';
+import { Redirect } from '@reach/router';
 
 const AddPlaylistButton = styled(Button)`
   width: 12rem;
@@ -24,6 +24,7 @@ const Title = styled.h1`
 
 class AddPlaylist extends Component {
   state = {
+    submitted: false,
     loading: true,
     name: '',
     options: [],
@@ -31,6 +32,9 @@ class AddPlaylist extends Component {
   };
 
   render() {
+    if (this.state.submitted) {
+      return <Redirect noThrow to="/home" />;
+    }
     return (
       <Layout>
         {this.state.loading ? null : (
@@ -80,7 +84,7 @@ class AddPlaylist extends Component {
       client.playlist
         .create(name, ...songs)
         .then(() => {
-          this.setState({ loading: false }, () => navigate('/home'));
+          this.setState({ loading: false, submitted: true });
         })
         .catch(err =>
           this.setState({ loading: false }, () => console.error(err))

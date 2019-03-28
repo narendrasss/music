@@ -44,9 +44,6 @@ const Nav = () => {
           <Link to="/playlists">Playlists</Link>
         </NavItem>
         <NavItem>
-          <Link to="/albums">Albums</Link>
-        </NavItem>
-        <NavItem>
           <Link to="/artists">Artists</Link>
         </NavItem>
         <Logout onClick={logout}>Logout</Logout>

@@ -39,7 +39,7 @@ const Song = ({
       <Link to={`/user/${user_id}/${album_name}`}>{album_name}</Link>
     </Name>
     <Name>
-      <Link to={`/user/${user_id}`}>{name}</Link>
+      <Link to={`/artists/${user_id}`}>{name}</Link>
     </Name>
     <Time>{toMinutes(duration_seconds)}</Time>
   </>

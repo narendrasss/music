@@ -37,7 +37,7 @@ const Name = styled.p`
 
 const UserIcon = ({ user_id, name }) => {
   return (
-    <Wrapper to={`/user/${user_id}`}>
+    <Wrapper to={`/artists/${user_id}`}>
       <Icon>{getInitials(name)}</Icon>
       <Name>{name}</Name>
     </Wrapper>

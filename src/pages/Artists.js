@@ -5,15 +5,25 @@ import Spinner from '../components/Spinner';
 import List from '../components/List';
 import client from '../utils/client';
 import { sleep } from '../utils/helpers';
+import ArtistCard from '../components/ArtistCard';
 
 const Title = styled.h1`
   margin-bottom: 2rem;
 `;
 
+const SubTitle = styled.h2`
+  margin: 1.5rem 0;
+`;
+
+const FlexList = styled(List)`
+  display: flex;
+`;
+
 class Artists extends Component {
   state = {
     loading: true,
-    artists: []
+    artists: [],
+    favs: []
   };
 
   render() {
@@ -23,10 +33,14 @@ class Artists extends Component {
           <Spinner size="3x" />
         ) : (
           <>
-            <Title>Your Playlists</Title>
+            <Title>Top Artists</Title>
             <List items={this.state.artists}>
-              {artist => <p>{artist.name}</p>}
+              {artist => <ArtistCard {...artist} />}
             </List>
+            <SubTitle>Favourite Artists</SubTitle>
+            <FlexList items={this.state.favs}>
+              {artist => <ArtistCard {...artist} />}
+            </FlexList>
           </>
         )}
       </Layout>
@@ -38,6 +52,12 @@ class Artists extends Component {
     client.artist
       .top()
       .then(res => this.setState({ loading: false, artists: res.data }))
+      .catch(err => {
+        this.setState({ loading: false, errors: err });
+      });
+    client.artist
+      .fav()
+      .then(res => this.setState({ loading: false, favs: res.data }))
       .catch(err => {
         this.setState({ loading: false, errors: err });
       });

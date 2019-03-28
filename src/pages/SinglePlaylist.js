@@ -19,8 +19,19 @@ const Btn = styled(Button)`
   margin: 1rem 0;
 `;
 
+const Warning = styled(Btn)`
+  background-color: ${({ theme }) => theme.colors.red};
+`;
+
 const Hidden = styled.div`
   display: ${({ show }) => (show ? 'block' : 'none')};
+`;
+
+const Flex = styled.div`
+  display: flex;
+  ${Btn} {
+    margin-right: 1rem;
+  }
 `;
 
 class SinglePlaylist extends Component {
@@ -43,9 +54,12 @@ class SinglePlaylist extends Component {
             <List items={this.state.songs}>
               {playlist => <RemoveSong {...playlist} />}
             </List>
-            <Btn onClick={this.handleShow}>
-              {this.state.editing ? 'Close' : 'Edit Playlist'}
-            </Btn>
+            <Flex>
+              <Btn onClick={this.handleShow}>
+                {this.state.editing ? 'Close' : 'Edit Playlist'}
+              </Btn>
+              <Warning onClick={this.handleDelete}>Delete playlist</Warning>
+            </Flex>
             <Hidden show={this.state.editing}>
               <TextInput
                 label="New playlist name"
@@ -83,6 +97,20 @@ class SinglePlaylist extends Component {
         .then(() => {
           this.setState({ loading: false, editing: false });
           navigate(`/playlists/${name}`);
+        })
+        .catch(err => {
+          this.setState({ loading: false, errors: err });
+        });
+    });
+  };
+
+  handleDelete = () => {
+    this.setState({ loading: true }, () => {
+      client.playlist
+        .delete(this.props.name)
+        .then(() => {
+          this.setState({ loading: false });
+          navigate(`/playlists`);
         })
         .catch(err => {
           this.setState({ loading: false, errors: err });
