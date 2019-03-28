@@ -39,3 +39,9 @@ export const logout = () => {
 };
 
 export const sleep = ms => new Promise((resolve, _) => setTimeout(resolve, ms));
+
+export const __parseJSON = response => {
+  return response.text().then(text => {
+    return text ? JSON.parse(text) : {};
+  });
+};

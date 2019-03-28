@@ -24,10 +24,10 @@ const Close = styled(FontAwesomeIcon).attrs({ icon: 'times' })`
   color: ${({ theme }) => theme.colors.lgray};
 `;
 
-const RemoveSong = ({ onRemove, ...props }) => (
+const RemoveSong = ({ onRemove, song_id, ...props }) => (
   <Wrapper>
-    <Close onClick={onRemove} />
-    <Song {...props} />
+    <Close onClick={() => onRemove(song_id)} />
+    <Song song_id={song_id} {...props} />
   </Wrapper>
 );
 

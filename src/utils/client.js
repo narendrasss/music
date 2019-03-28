@@ -1,3 +1,5 @@
+import { __parseJSON } from './helpers';
+
 const BASE_URL = 'http://localhost:8080';
 
 const request = async (method, url, body) => {
@@ -11,7 +13,7 @@ const request = async (method, url, body) => {
     body: JSON.stringify(body)
   });
 
-  let data = await response.json();
+  const data = await __parseJSON(response);
   return new Promise((resolve, reject) => {
     if (!response.ok) return reject(data);
     resolve(data);
@@ -41,6 +43,7 @@ export default {
       return request('post', `/api/likes`, { id });
     },
     unlike(id) {
+      console.log(id);
       return request('delete', `/api/likes/${id}`);
     }
   },
@@ -48,12 +51,23 @@ export default {
     create(name, ...sids) {
       const init = request('post', '/api/playlist', { name });
       const promises = sids.map(id =>
-        request('post', `/api/playlist/${name}`, { id })
+        request('post', `/api/playlist/${name}/${id}`, { id })
       );
-      return Promise.all(init, ...promises);
+      return Promise.all([init, ...promises]);
     },
     me() {
       return request('get', `/api/playlist`);
+    },
+    one(name) {
+      return request('get', `/api/playlist/${name}`);
+    },
+    update(name, body) {
+      return request('put', `/api/playlist/${name}`, body);
+    }
+  },
+  artist: {
+    top() {
+      return request('get', `/api/artist`);
     }
   }
 };

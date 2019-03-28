@@ -48,19 +48,25 @@ class Home extends Component {
             <h1>Welcome back, {this.state.user.name}.</h1>
             <Songs title="Liked Songs" songs={this.state.songs}>
               {song => (
-                <RemoveSong onRemove={this.handleRemoveSong} {...song} />
+                <RemoveSong
+                  key={song.song_id}
+                  onRemove={this.handleRemoveSong}
+                  {...song}
+                />
               )}
             </Songs>
             <h2>Playlists</h2>
             <FlexList items={this.state.playlists}>
-              {playlist => <Playlist {...playlist} />}
+              {playlist => (
+                <Playlist key={playlist.playlist_name} {...playlist} />
+              )}
             </FlexList>
             <Link to="/add-playlist">
               <AddPlaylist>Add playlist</AddPlaylist>
             </Link>
             <h2>Follows</h2>
             <FlexList items={this.state.follows}>
-              {user => <UserIcon {...user} />}
+              {user => <UserIcon key={user.user_id} {...user} />}
             </FlexList>
           </>
         )}

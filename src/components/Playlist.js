@@ -25,9 +25,9 @@ const PlaylistName = styled.h1`
   margin-bottom: 0.5rem;
 `;
 
-const Playlist = ({ user_id, playlist_name, num_songs }) => (
+const Playlist = ({ playlist_name, num_songs }) => (
   <Wrapper>
-    <Link to={`/user/${user_id}/playlist/${playlist_name}`}>
+    <Link to={`/playlists/${playlist_name}`}>
       <PlaylistName>{playlist_name}</PlaylistName>
       <p>Number of songs: {num_songs}</p>
     </Link>

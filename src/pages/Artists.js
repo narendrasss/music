@@ -5,8 +5,6 @@ import Spinner from '../components/Spinner';
 import List from '../components/List';
 import client from '../utils/client';
 import { sleep } from '../utils/helpers';
-import Playlist from '../components/Playlist';
-import Link from '../components/Link';
 
 const Title = styled.h1`
   margin-bottom: 2rem;
@@ -27,7 +25,7 @@ class Artists extends Component {
           <>
             <Title>Your Playlists</Title>
             <List items={this.state.artists}>
-              {playlist => <Playlist {...playlist} />}
+              {artist => <p>{artist.name}</p>}
             </List>
           </>
         )}
@@ -37,8 +35,8 @@ class Artists extends Component {
 
   async componentDidMount() {
     await sleep(500);
-    client.playlist
-      .me()
+    client.artist
+      .top()
       .then(res => this.setState({ loading: false, artists: res.data }))
       .catch(err => {
         this.setState({ loading: false, errors: err });

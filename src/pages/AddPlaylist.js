@@ -45,7 +45,9 @@ class AddPlaylist extends Component {
             <Songs title="Liked Songs" songs={this.state.options}>
               {song => <AddSong onAdd={this.handleChangeSong} {...song} />}
             </Songs>
-            <AddPlaylistButton>Add playlist</AddPlaylistButton>
+            <AddPlaylistButton onClick={this.handleSubmit}>
+              Add playlist
+            </AddPlaylistButton>
           </>
         )}
       </Layout>

@@ -12,6 +12,7 @@ import Songs from './pages/Songs';
 import Playlist from './pages/Playlists';
 import Artists from './pages/Artists';
 import Albums from './pages/Albums';
+import SinglePlaylist from './pages/SinglePlaylist';
 
 const App = () => (
   <ThemeProvider theme={theme}>
@@ -24,6 +25,7 @@ const App = () => (
         <AddPlaylist path="/add-playlist" />
         <Songs path="/songs" />
         <Playlist path="/playlists" />
+        <SinglePlaylist path="/playlists/:name" />
         <Artists path="/artists" />
         <Albums path="/albums" />
       </Router>
